@@ -10,6 +10,9 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
+
 import cz.ysoft.demo.encryption.Encoder;
 
 public class DESEncoder implements Encoder {
@@ -35,7 +38,7 @@ public class DESEncoder implements Encoder {
 
 	    byte[] textEncrypted = desCipher.doFinal(text);
 	    
-	    return "" + textEncrypted;
+	    return Hex.encodeHexString(textEncrypted);
 
 	}
 
@@ -51,14 +54,14 @@ public class DESEncoder implements Encoder {
 	}
 
 	@Override
-	public String decode(String c) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+	public String decode(String c) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, DecoderException {
 	    Cipher desCipher;
 
 	    desCipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 	    
 	    desCipher.init(Cipher.DECRYPT_MODE, myDesKey);
 
-	    byte[] text = c.getBytes();
+	    byte[] text = Hex.decodeHex(c.toCharArray());
 
 	    byte[] textEncrypted = desCipher.doFinal(text);
 	    
