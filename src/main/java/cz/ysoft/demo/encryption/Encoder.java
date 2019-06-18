@@ -1,6 +1,6 @@
 package cz.ysoft.demo.encryption;
 
 public interface Encoder {
-	public String encode(String c) ;
-	public String decode(String c) ;
+	public String encode(String c) throws Exception;
+	public String decode(String c)  throws Exception;
 }

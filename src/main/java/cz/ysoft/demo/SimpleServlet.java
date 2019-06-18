@@ -42,7 +42,14 @@ public class SimpleServlet extends HttpServlet {
 	
 	private String processResult(boolean encode, String message, String algorithm) {
 		Encoder encoder = EncoderFactory.createEncoder(algorithm);
-		return encode ? encoder.encode(message) : encoder.decode(message);
+		String retValue;
+		try {
+			retValue = encode ? encoder.encode(message) : encoder.decode(message);
+			return retValue;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return e.getMessage() + e.getStackTrace();
+		}
 	}
 
 	@Override
